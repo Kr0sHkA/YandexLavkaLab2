@@ -25,6 +25,7 @@ bool Order::applyPromoCode(const std::string& code) {
         return true;
     }
 
+    discount = 0.0;
     return false;
 }
 

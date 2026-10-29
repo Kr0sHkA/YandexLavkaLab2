@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Order.h"
-#include "pch.h"
-#include "Order.h"
+
 
 TEST(OrderTests, EmptyOrderHasZeroSubtotal) {
     Order order;
@@ -85,4 +84,15 @@ TEST(OrderTests, DiscountDoesNotChangeSubtotal) {
 
     EXPECT_DOUBLE_EQ(order.getSubtotal(), 1000.0);
     EXPECT_DOUBLE_EQ(order.getTotal(), 900.0);
+}
+TEST(OrderTests, InvalidPromoCodeResetsPreviousDiscount) {
+    Order order;
+    order.addProduct(1000.0);
+
+    EXPECT_TRUE(order.applyPromoCode("LAVKA10"));
+    EXPECT_DOUBLE_EQ(order.getDiscount(), 100.0);
+
+    EXPECT_FALSE(order.applyPromoCode("INVALID"));
+    EXPECT_DOUBLE_EQ(order.getDiscount(), 0.0);
+    EXPECT_DOUBLE_EQ(order.getTotal(), 1000.0);
 }
